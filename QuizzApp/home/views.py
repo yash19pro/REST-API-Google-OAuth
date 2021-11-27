@@ -6,11 +6,63 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .forms import QuizForm, QuestionForm
 from django.forms import inlineformset_factory
+from rest_framework import generics
+from .serializers import *
+from rest_framework.permissions import IsAdminUser
+
 
 def index(request):
     quiz = Quiz.objects.all()
     para = {'quiz' : quiz}
     return render(request, "index.html", para)
+
+class QuizCollection(generics.ListCreateAPIView):
+    permission_classes = [IsAdminUser] # only for admin users
+
+    queryset = Quiz.objects.all()
+    serializer_class = QuizSerializer
+
+class QuizUpdate(generics.UpdateAPIView):
+    permission_classes = [IsAdminUser] # only for admin users
+
+    queryset = Quiz.objects.all()
+    serializer_class = QuizSerializer
+
+class QuestionCollection(generics.ListCreateAPIView):
+    permission_classes = [IsAdminUser] # only for admin users
+
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+
+class QuestionUpdate(generics.UpdateAPIView):
+    permission_classes = [IsAdminUser] # only for admin users
+ 
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+
+class AnswerCollection(generics.ListCreateAPIView):
+    permission_classes = [IsAdminUser] # only for admin users
+
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+
+class AnswerUpdate(generics.UpdateAPIView):
+    permission_classes = [IsAdminUser] # only for admin users
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+
+class AnswerDelete(generics.DestroyAPIView):
+    permission_classes = [IsAdminUser] # only for admin users
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+class QuestionDelete(generics.DestroyAPIView):
+    permission_classes = [IsAdminUser] # only for admin users
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+class QuizDelete(generics.DestroyAPIView):
+    permission_classes = [IsAdminUser] # only for admin users
+    queryset = Quiz.objects.all()
+    serializer_class = QuizSerializer
 
 @login_required(login_url = '/login')
 def quiz(request, myid):

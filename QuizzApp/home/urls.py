@@ -22,5 +22,14 @@ urlpatterns = [
     path('delete_result/<int:myid>/', views.delete_result, name='delete_result'), 
     
     path('accounts/', include('allauth.urls')),
-    path('logout', LogoutView.as_view()),   
+    path('logout', LogoutView.as_view()),  
+    path('quiz_collection',views.QuizCollection.as_view(),name="quiz"),
+    path('answer_collection',views.AnswerCollection.as_view(),name="quiz"),
+    path('question_collection',views.QuestionCollection.as_view(),name="quiz"),
+    path('quiz_update/<int:pk>',views.QuizUpdate.as_view(),name="quiz"),
+    path('question_update/<int:pk>',views.QuestionUpdate.as_view(),name="quiz"),
+    path('answer_update/<int:pk>',views.AnswerUpdate.as_view(),name="quiz"),
+    path('quiz_delete/<int:pk>',views.QuizDelete.as_view(),name="quiz"),
+    path('question_delete/<int:pk>',views.QuestionDelete.as_view(),name="quiz"),
+    path('answer_delete/<int:pk>',views.AnswerDelete.as_view(),name="quiz"),
 ]
