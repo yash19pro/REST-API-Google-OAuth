@@ -2,6 +2,7 @@ from . import views
 from django.urls import path, include
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LogoutView
+from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
     path("index/", views.index, name="index"),
@@ -11,7 +12,7 @@ urlpatterns = [
     path('index/<int:myid>/save/', views.save_quiz_view, name='quiz-save'),
     
     #path("signup/", views.Signup, name="signup"),
-    #path("login/", views.Login, name="login"),
+    # path("login/", views.Login, name="login"),
     #path("logout/", views.Logout, name="logout"),
     
     path('add_quiz/', views.add_quiz, name='add_quiz'),    
@@ -32,4 +33,11 @@ urlpatterns = [
     path('quiz_delete/<int:pk>',views.QuizDelete.as_view(),name="quiz"),
     path('question_delete/<int:pk>',views.QuestionDelete.as_view(),name="quiz"),
     path('answer_delete/<int:pk>',views.AnswerDelete.as_view(),name="quiz"),
+    path('api/token/',
+         jwt_views.TokenObtainPairView.as_view(),
+         name ='token_obtain_pair'),
+    path('api/token/refresh/',
+         jwt_views.TokenRefreshView.as_view(),
+         name ='token_refresh'),
 ]
+  
