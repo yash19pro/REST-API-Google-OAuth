@@ -15,6 +15,8 @@ urlpatterns = [
     # path("login/", views.Login, name="login"),
     #path("logout/", views.Logout, name="logout"),
     
+    path('motivate/', views.motivate, name='motivate'), 
+    
     path('add_quiz/', views.add_quiz, name='add_quiz'),    
     path('add_question/', views.add_question, name='add_question'),  
     path('add_options/<int:myid>/', views.add_options, name='add_options'), 

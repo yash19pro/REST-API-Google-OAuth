@@ -16,53 +16,6 @@ def index(request):
     para = {'quiz' : quiz}
     return render(request, "index.html", para)
 
-class QuizCollection(generics.ListCreateAPIView):
-    permission_classes = [IsAdminUser] # only for admin users
-
-    queryset = Quiz.objects.all()
-    serializer_class = QuizSerializer
-
-class QuizUpdate(generics.UpdateAPIView):
-    permission_classes = [IsAdminUser] # only for admin users
-
-    queryset = Quiz.objects.all()
-    serializer_class = QuizSerializer
-
-class QuestionCollection(generics.ListCreateAPIView):
-    permission_classes = [IsAdminUser] # only for admin users
-
-    queryset = Question.objects.all()
-    serializer_class = QuestionSerializer
-
-class QuestionUpdate(generics.UpdateAPIView):
-    permission_classes = [IsAdminUser] # only for admin users
- 
-    queryset = Question.objects.all()
-    serializer_class = QuestionSerializer
-
-class AnswerCollection(generics.ListCreateAPIView):
-    permission_classes = [IsAdminUser] # only for admin users
-
-    queryset = Answer.objects.all()
-    serializer_class = AnswerSerializer
-
-class AnswerUpdate(generics.UpdateAPIView):
-    permission_classes = [IsAdminUser] # only for admin users
-    queryset = Answer.objects.all()
-    serializer_class = AnswerSerializer
-
-class AnswerDelete(generics.DestroyAPIView):
-    permission_classes = [IsAdminUser] # only for admin users
-    queryset = Answer.objects.all()
-    serializer_class = AnswerSerializer
-class QuestionDelete(generics.DestroyAPIView):
-    permission_classes = [IsAdminUser] # only for admin users
-    queryset = Question.objects.all()
-    serializer_class = QuestionSerializer
-class QuizDelete(generics.DestroyAPIView):
-    permission_classes = [IsAdminUser] # only for admin users
-    queryset = Quiz.objects.all()
-    serializer_class = QuizSerializer
 
 @login_required(login_url = '/login')
 def quiz(request, myid):
@@ -81,6 +34,9 @@ def quiz_data_view(request, myid):
         'data': questions,
         'time': quiz.time,
     })
+    
+def motivate(request):
+    return render(request, "motivation.html")
 
 
 def save_quiz_view(request, myid):
@@ -223,3 +179,54 @@ def delete_result(request, myid):
         marks.delete()
         return redirect('/results')
     return render(request, "delete_result.html", {'marks':marks})
+
+
+
+
+class QuizCollection(generics.ListCreateAPIView):
+    permission_classes = [IsAdminUser] # only for admin users
+
+    queryset = Quiz.objects.all()
+    serializer_class = QuizSerializer
+
+class QuizUpdate(generics.UpdateAPIView):
+    permission_classes = [IsAdminUser] # only for admin users
+
+    queryset = Quiz.objects.all()
+    serializer_class = QuizSerializer
+
+class QuestionCollection(generics.ListCreateAPIView):
+    permission_classes = [IsAdminUser] # only for admin users
+
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+
+class QuestionUpdate(generics.UpdateAPIView):
+    permission_classes = [IsAdminUser] # only for admin users
+ 
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+
+class AnswerCollection(generics.ListCreateAPIView):
+    permission_classes = [IsAdminUser] # only for admin users
+
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+
+class AnswerUpdate(generics.UpdateAPIView):
+    permission_classes = [IsAdminUser] # only for admin users
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+
+class AnswerDelete(generics.DestroyAPIView):
+    permission_classes = [IsAdminUser] # only for admin users
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+class QuestionDelete(generics.DestroyAPIView):
+    permission_classes = [IsAdminUser] # only for admin users
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+class QuizDelete(generics.DestroyAPIView):
+    permission_classes = [IsAdminUser] # only for admin users
+    queryset = Quiz.objects.all()
+    serializer_class = QuizSerializer
