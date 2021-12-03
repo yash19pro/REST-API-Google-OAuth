@@ -1,0 +1,125 @@
+{% extends 'base.html' %} {% block title %} Quiz {% endblock %} {% block css %}
+<link
+  rel="stylesheet"
+  href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+  integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+  crossorigin="anonymous"
+/>
+
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
+  @import url("https://fonts.googleapis.com/css2?family=Grechen+Fuemen&display=swap");
+
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+
+  .navbar {
+    display: flex;
+    width: 100%;
+    position: absolute;
+    top: 20px;
+    justify-content: space-between;
+    padding: 0px 30px;
+  }
+
+  .name {
+    font-family: "Grechen Fuemen", cursive;
+    font-size: 80px;
+  }
+
+  .others {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 500px;
+  }
+
+  .others p {
+    margin: 20px;
+    cursor: pointer;
+  }
+
+  .wisdom {
+    height: 100%;
+    width: 80%;
+    text-align: right;
+    font-size: 25px;
+  }
+
+  a,
+  a:hover,
+  a:focus,
+  a:active {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background: url("../static/images/bg.jpg");
+    background-size: cover;
+  }
+
+  body::after {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: -1;
+  }
+</style>
+<body>
+  <div class="weather_temperature"></div>
+  <script>
+    const _quote = document.querySelector(".weather_temperature");
+    const API =
+      "http://api.openweathermap.org/data/2.5/weather?q=Mumbai&units=metric&appid=b171d6eddd9d940a6af40dc2aeba0065";
+    const dailyWisdom = async () => {
+      const quote = await fetch(API)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+
+          const temp_type = data.main.temp;
+
+          let icon = "";
+
+          if (temp_type === "mist") {
+            icon = `<i class="fas fa-cloud" style="color: #2980b9"></i>`;
+          } else if (temp_type === "Clouds") {
+            icon = `<i class="fas fa-cloud" style="color: #bdc3c7"></i>`;
+          } else {
+            icon = `<i class="fas fa-cloud-rain" style="color: #a4b0be"></i>`;
+          }
+
+          _quote.innerHTML =
+            "<h1>" +
+            data.name +
+						" " +
+						icon +
+            "</h1>" +
+            "<br />-" +
+            data.main.temp +
+            " °C" +
+            " (" +
+            data.weather[0].main +
+            ")";
+        })
+        .catch((err) => console.log(err));
+    };
+    dailyWisdom();
+  </script>
+</body>
+
+{% endblock %}

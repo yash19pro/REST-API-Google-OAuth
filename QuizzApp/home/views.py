@@ -38,6 +38,9 @@ def quiz_data_view(request, myid):
 def motivate(request):
     return render(request, "motivation.html")
 
+def weather(request):
+    return render(request, "weather.html")
+
 
 def save_quiz_view(request, myid):
     if request.is_ajax():
