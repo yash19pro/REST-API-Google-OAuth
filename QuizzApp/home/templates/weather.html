@@ -84,7 +84,7 @@
   <script>
     const _quote = document.querySelector(".weather_temperature");
     const API =
-      "http://api.openweathermap.org/data/2.5/weather?q=Mumbai&units=metric&appid=b171d6eddd9d940a6af40dc2aeba0065";
+      "http://api.openweathermap.org/data/2.5/weather?q={{city}}&units=metric&appid=b171d6eddd9d940a6af40dc2aeba0065";
     const dailyWisdom = async () => {
       const quote = await fetch(API)
         .then((res) => res.json())
@@ -106,8 +106,8 @@
           _quote.innerHTML =
             "<h1>" +
             data.name +
-						" " +
-						icon +
+            " " +
+            icon +
             "</h1>" +
             "<br />-" +
             data.main.temp +

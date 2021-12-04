@@ -10,11 +10,54 @@ from rest_framework import generics
 from .serializers import *
 from rest_framework.permissions import IsAdminUser
 
+import time
+from rest_framework import status
+from rest_framework.response import Response
+import requests
+from rest_framework.decorators import api_view
 
 def index(request):
     quiz = Quiz.objects.all()
     para = {'quiz' : quiz}
     return render(request, "index.html", para)
+
+
+def get_location():
+    MAX_RETRIES = 2
+
+    attempt_num = 0  # keep track of how many times we've retried
+    while attempt_num < MAX_RETRIES:
+        url = "https://api.ipify.org?format=json"  # api end point
+        r = requests.get(url)
+        print(r)
+        if r.status_code == 200:
+            data = r.json()
+            print(data)
+            print(type(data["ip"]))  # ip address of the requesting machine in string
+            return get_loc_from_ip(data["ip"])
+        else:
+            attempt_num += 1
+            time.sleep(5)  # Wait for 5 seconds before re-trying
+
+
+def get_loc_from_ip(ip):
+    MAX_RETRIES = 3
+    # doc of the used API
+    # https://www.geojs.io/docs/v1/endpoints/geo/
+    attempt_num = 0  # keep track of how many times we've retried
+    while attempt_num < MAX_RETRIES:
+        url = f"https://get.geojs.io/v1/ip/geo/{ip}.json"  # api end point
+        r = requests.get(url)
+        print(r)
+        if r.status_code == 200:
+            data = r.json()
+            print(data)
+            return data
+        else:
+            attempt_num += 1
+            time.sleep(5)  # Wait for 5 seconds before re-trying
+    return Response({"error": "Request failed"}, status=r.status_code)
+
 
 
 @login_required(login_url = '/login')
@@ -39,8 +82,10 @@ def motivate(request):
     return render(request, "motivation.html")
 
 def weather(request):
-    return render(request, "weather.html")
-
+    r = get_location()
+    city = r.get('city', "Mumbai")
+    context =  {'city': city}
+    return render(request, "weather.html", context)
 
 def save_quiz_view(request, myid):
     if request.is_ajax():
